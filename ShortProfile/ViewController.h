@@ -19,6 +19,8 @@
 
 @property (nonatomic, strong) IBOutlet UIImageView *m_cBackgroundIV;
 
+@property (nonatomic, strong) UIView *m_cGradientView;
+
 @property (nonatomic, strong) UIView *m_cButtonsView;
 @property (nonatomic, strong) SPSegmentControl *m_cSegmentControl;
 

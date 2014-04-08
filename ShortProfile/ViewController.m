@@ -20,7 +20,7 @@
 
 @implementation ViewController
 
-@synthesize m_cBackgroundIV;
+@synthesize m_cBackgroundIV, m_cGradientView;
 @synthesize m_cProfileDetailsView,m_cNameAgeLabel, m_cDetailsLabel, m_cBodyArtsLabel;
 @synthesize m_cButtonsView, m_cSegmentControl;
 @synthesize m_cScrollableDetailView, m_cScrollView;
@@ -35,23 +35,32 @@
     isScrollViewVisible = NO;
     currentSelectedIndex = -1;
     
-    self.m_cProfileDetailsView = [[UIView alloc] initWithFrame:CGRectMake(0, 438, 320, 80)];
-    self.m_cProfileDetailsView.backgroundColor = [UIColor clearColor];
-    self.m_cProfileDetailsView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    self.m_cGradientView = [[UIView alloc] initWithFrame:CGRectMake(0, 358, 320, 160)];
+    self.m_cGradientView.backgroundColor = [UIColor clearColor];
+    self.m_cGradientView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = self.m_cProfileDetailsView.bounds;
+    gradient.frame = self.m_cGradientView.bounds;
     
     NSArray *colors = [NSArray arrayWithObjects:
                        (id)[[UIColor clearColor] CGColor],
-                       (id)[[[UIColor colorWithWhite:0.0 alpha:0.3] colorWithAlphaComponent:0.1f] CGColor],
-                       (id)[[[UIColor colorWithWhite:0.0 alpha:0.3] colorWithAlphaComponent:0.2f] CGColor],
-                       (id)[[[UIColor colorWithWhite:0.0 alpha:0.3] colorWithAlphaComponent:0.3f] CGColor],
-                       (id)[[[UIColor colorWithWhite:0.0 alpha:0.3] colorWithAlphaComponent:0.4f] CGColor],
+                       (id)[[UIColor clearColor] CGColor],
+                       (id)[[[UIColor blackColor] colorWithAlphaComponent:0.1f] CGColor],
+                       (id)[[[UIColor blackColor] colorWithAlphaComponent:0.2f] CGColor],
+                       (id)[[[UIColor blackColor] colorWithAlphaComponent:0.3f] CGColor],
+                       (id)[[[UIColor blackColor] colorWithAlphaComponent:0.4f] CGColor],
+                       (id)[[[UIColor blackColor] colorWithAlphaComponent:0.5f] CGColor],
                        nil];
     
     gradient.colors = colors;
-    [self.m_cProfileDetailsView.layer insertSublayer:gradient atIndex:0];
+    [self.m_cGradientView.layer insertSublayer:gradient atIndex:0];
+    [self.view addSubview:self.m_cGradientView];
+    
+    self.m_cProfileDetailsView = [[UIView alloc] initWithFrame:CGRectMake(0, 438, 320, 80)];
+    self.m_cProfileDetailsView.backgroundColor = [UIColor clearColor];
+    self.m_cProfileDetailsView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:self.m_cProfileDetailsView];
+    
+
     
     self.m_cNameAgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
     self.m_cNameAgeLabel.textAlignment = NSTextAlignmentCenter;
@@ -196,16 +205,19 @@
         CGRect frame1 = self.m_cProfileDetailsView.frame;
         CGRect frame2 = self.m_cButtonsView.frame;
         CGRect frame3 = self.m_cScrollableDetailView.frame;
+        CGRect frame4 = self.m_cGradientView.frame;
         
         frame1.origin.y -= kScrollPageHeight;
         frame2.origin.y -= kScrollPageHeight;
         frame3.origin.y -= kScrollPageHeight;
+        frame4.origin.y -= kScrollPageHeight;
         
         [UIView animateWithDuration:0.5
                          animations:^{
                              self.m_cProfileDetailsView.frame = frame1;
                              self.m_cButtonsView.frame = frame2;
                              self.m_cScrollableDetailView.frame = frame3;
+                             self.m_cGradientView.frame = frame4;
                          } completion:^(BOOL finished){
                              if(finished){
                                  isScrollViewVisible = YES;
@@ -224,17 +236,19 @@
         CGRect frame1 = self.m_cProfileDetailsView.frame;
         CGRect frame2 = self.m_cButtonsView.frame;
         CGRect frame3 = self.m_cScrollableDetailView.frame;
+        CGRect frame4 = self.m_cGradientView.frame;
         
         frame1.origin.y += kScrollPageHeight;
         frame2.origin.y += kScrollPageHeight;
         frame3.origin.y += kScrollPageHeight;
+        frame4.origin.y += kScrollPageHeight;
         
         [UIView animateWithDuration:0.5
                          animations:^{
                              self.m_cProfileDetailsView.frame = frame1;
                              self.m_cButtonsView.frame = frame2;
                              self.m_cScrollableDetailView.frame = frame3;
-                             
+                             self.m_cGradientView.frame = frame4;
                          } completion:^(BOOL finished){
                              if(finished){
                                  isScrollViewVisible = NO;
