@@ -32,4 +32,7 @@
 @property (nonatomic, strong) UIView *m_cScrollableDetailView;
 @property (nonatomic, strong) UIScrollView *m_cScrollView;
 
+@property (nonatomic, strong) UIButton *m_cSpotsButton;
+@property (nonatomic, strong) UIButton *m_cInterestsButton;
+
 @end

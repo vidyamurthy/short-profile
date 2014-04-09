@@ -26,6 +26,7 @@
 @synthesize m_cProfileDetailsView,m_cNameAgeLabel, m_cDetailsLabel, m_cBodyArtsLabel;
 @synthesize m_cButtonsView, m_cSegmentControl;
 @synthesize m_cScrollableDetailView, m_cScrollView;
+@synthesize m_cInterestsButton, m_cSpotsButton;
 
 - (void)viewDidLoad
 {
@@ -61,8 +62,6 @@
     self.m_cProfileDetailsView.backgroundColor = [UIColor clearColor];
     self.m_cProfileDetailsView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:self.m_cProfileDetailsView];
-    
-
     
     self.m_cNameAgeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
     self.m_cNameAgeLabel.textAlignment = NSTextAlignmentCenter;
@@ -129,22 +128,44 @@
     [self.m_cButtonsView addSubview:lSeparaterView];
     
     
-    self.m_cSegmentControl = [[SPSegmentControl alloc] initWithItems:[NSArray arrayWithObjects:@"Shared Spots (10)", @"Shared Interests (10)", nil]];
-    self.m_cSegmentControl.frame = CGRectMake(0, 0, 320, kBottomButtonViewHeight);
-    self.m_cSegmentControl.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{
-                                                              NSForegroundColorAttributeName: [UIColor colorWithRed:0.84 green:0.23 blue:0.52 alpha:1],
-                                                              NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:14],
-                                                              } forState:UIControlStateNormal];
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{
-                                                              NSForegroundColorAttributeName: [UIColor colorWithRed:0.40 green:0.40 blue:0.56 alpha:1],
-                                                              NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:14],
-                                                              } forState:UIControlStateSelected];
+//    self.m_cSegmentControl = [[SPSegmentControl alloc] initWithItems:[NSArray arrayWithObjects:@"Shared Spots (10)", @"Shared Interests (10)", nil]];
+//    self.m_cSegmentControl.frame = CGRectMake(0, 0, 320, kBottomButtonViewHeight);
+//    self.m_cSegmentControl.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+//    [[UISegmentedControl appearance] setTitleTextAttributes:@{
+//                                                              NSForegroundColorAttributeName: [UIColor colorWithRed:0.84 green:0.23 blue:0.52 alpha:1],
+//                                                              NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:14],
+//                                                              } forState:UIControlStateNormal];
+//    [[UISegmentedControl appearance] setTitleTextAttributes:@{
+//                                                              NSForegroundColorAttributeName: [UIColor colorWithRed:0.40 green:0.40 blue:0.56 alpha:1],
+//                                                              NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:14],
+//                                                              } forState:UIControlStateSelected];
+//
+//    self.m_cSegmentControl.tintColor = [UIColor colorWithWhite:1 alpha:0.1];
+//    self.m_cSegmentControl.backgroundColor = [UIColor colorWithWhite:1 alpha:0.77];
+//    [self.m_cSegmentControl addTarget:self action:@selector(segmentControlButtonClicked) forControlEvents:UIControlEventValueChanged];
+//    [self.m_cButtonsView addSubview:self.m_cSegmentControl];
 
-    self.m_cSegmentControl.tintColor = [UIColor colorWithWhite:1 alpha:0.1];
-    self.m_cSegmentControl.backgroundColor = [UIColor colorWithWhite:1 alpha:0.77];
-    [self.m_cSegmentControl addTarget:self action:@selector(segmentControlButtonClicked) forControlEvents:UIControlEventValueChanged];
-    [self.m_cButtonsView addSubview:self.m_cSegmentControl];
+    
+    self.m_cSpotsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.m_cSpotsButton.frame = CGRectMake(0, 0, 160, kBottomButtonViewHeight);
+    [self.m_cSpotsButton setTitleColor:[UIColor colorWithRed:0.84 green:0.23 blue:0.52 alpha:1] forState:UIControlStateNormal];
+    [self.m_cSpotsButton setTitle:@"Shared Spots (10)" forState:UIControlStateNormal];
+    self.m_cSpotsButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    self.m_cSpotsButton.tag = 10;
+    [self.m_cSpotsButton addTarget:self action:@selector(segmentControlButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    self.m_cSpotsButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.95];
+    [self.m_cButtonsView addSubview:self.m_cSpotsButton];
+    
+    self.m_cInterestsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.m_cInterestsButton.frame = CGRectMake(160, 0, 160, kBottomButtonViewHeight);
+    [self.m_cInterestsButton setTitleColor:[UIColor colorWithRed:0.31 green:0.36 blue:0.60 alpha:1] forState:UIControlStateNormal];
+    [self.m_cInterestsButton setTitle:@"Shared Interests (10)" forState:UIControlStateNormal];
+    self.m_cInterestsButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    self.m_cInterestsButton.tag = 11;
+    [self.m_cInterestsButton addTarget:self action:@selector(segmentControlButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    self.m_cInterestsButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.95];
+    [self.m_cButtonsView addSubview:self.m_cInterestsButton];
+    
     
     [self.m_cButtonsView bringSubviewToFront:lSeparaterView];
     
@@ -197,13 +218,13 @@
     }
 }
 
--(void)segmentControlButtonClicked{
+-(void)segmentControlButtonClicked:(UIButton*)pButton{
     
-    int selectedIndex = self.m_cSegmentControl.selectedSegmentIndex;
+    int selectedIndex = pButton.tag;
     
     //there is no scroll visible
     if (isScrollViewVisible == NO && currentSelectedIndex != selectedIndex) {
-        
+        pButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.85];
         CGRect frame1 = self.m_cProfileDetailsView.frame;
         CGRect frame2 = self.m_cButtonsView.frame;
         CGRect frame3 = self.m_cScrollableDetailView.frame;
@@ -230,11 +251,21 @@
     }
     //scrollview is visible, different segment selected
     else if (isScrollViewVisible == YES && currentSelectedIndex != selectedIndex){
+        //change the background color of current selection
+        pButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.85];
+        //change the background color of previous selection
+        if (self.m_cInterestsButton.tag == currentSelectedIndex) {
+            self.m_cInterestsButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.95];
+        }
+        else {
+            self.m_cSpotsButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.95];
+        }
         currentSelectedIndex = selectedIndex;
         //reload the scrollview data
     }
     //same index is clicked again, scrollview has to be dismissed
     else if (currentSelectedIndex == selectedIndex && isScrollViewVisible == YES){
+        pButton.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.95];
         CGRect frame1 = self.m_cProfileDetailsView.frame;
         CGRect frame2 = self.m_cButtonsView.frame;
         CGRect frame3 = self.m_cScrollableDetailView.frame;
